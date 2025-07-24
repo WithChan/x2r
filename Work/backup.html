@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+    .scroll-hint {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      z-index: 100;
+      animation: bounce 2s infinite;
+    }
+
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0) translateX(-50%);
+      }
+
+      40% {
+        transform: translateY(-20px) translateX(-50%);
+      }
+
+      60% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 100;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background-color: white;
+      transform: scale(1.3);
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .xr-headset {
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .glow {
+      box-shadow: 0 0 20px rgba(118, 75, 162, 0.5);
+    }
+
+    #unity-container {
+      margin: 0;
+      padding: 0;
+      position: relative;
+      background: #231F20;
+    }
+
+    #unity-canvas {
+      background: #231F20;
+      display: block;
+    }
+  </style>
+  <title>Unity Web Player | WebPage</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body style="margin: 0; padding: 0; overflow: hidden;">
+   <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-12">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 flex items-center">
+              <a href="./" class="flex items-center hover:opacity-75 transition-all duration-300">
+                <img src="TemplateData/x2r_Logo.png" alt="X2R Logo" class="h-6 w-auto mr-2" />
+                <span class="text-lg font-bold text-black hover:text-xl transition-all duration-300">X2R</span>
+              </a>
+            </div>
+          </div>
+          <div class="hidden md:flex md:items-center md:space-x-2">
+            <a href="https://www.x2r.kr/x2r-history" class="nav-link text-black font-medium text-sm px-3 py-2 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm relative group">
+              <span>About</span>
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="https://www.x2r.kr/x2r-projects-1" class="nav-link text-black font-medium text-sm px-4 py-2 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm relative group">
+              <span>X2R Project</span>
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80-3" class="nav-link text-black font-medium text-sm px-4 py-2 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm relative group">
+              <span>Exhibition</span>
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80-2" class="nav-link text-black font-medium text-sm px-4 py-2 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm relative group">
+              <span>Partners</span>
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="https://www.x2r.kr/%EB%B3%B4%EB%8F%84-%EC%9E%90%EB%A3%8C" class="nav-link text-black font-medium text-sm px-4 py-2 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm relative group">
+              <span>News</span>
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80-1" class="nav-link text-black font-medium text-sm px-4 py-2 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm relative group">
+              <span>Contact Us</span>
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80" class="nav-link text-black font-medium text-sm px-4 py-2 rounded-md transition-all duration-300 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm relative group">
+              <span>구인 정보</span>
+              <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </div>
+          <div class="-mr-2 flex items-center md:hidden">
+            <button type="button" id="mobile-menu-button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-100 focus:outline-none">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-white pb-3 px-2">
+        <a href="https://www.x2r.kr/x2r-history" class="block px-3 py-2 text-base font-medium text-black hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">About</a>
+        <a href="https://www.x2r.kr/x2r-projects-1" class="block px-3 py-2 text-base font-medium text-black hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">X2R Project</a>
+        <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80-3" class="block px-3 py-2 text-base font-medium text-black hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">Exhibition</a>
+        <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80-2" class="block px-3 py-2 text-base font-medium text-black hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">Partners</a>
+        <a href="https://www.x2r.kr/%EB%B3%B4%EB%8F%84-%EC%9E%90%EB%A3%8C" class="block px-3 py-2 text-base font-medium text-black hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">News</a>
+        <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80-1" class="block px-3 py-2 text-base font-medium text-black hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">Contact Us</a>
+        <a href="https://www.x2r.kr/%EB%B9%88-%ED%8E%98%EC%9D%B4%EC%A7%80" class="block px-3 py-2 text-base font-medium text-black hover:bg-indigo-50 hover:text-indigo-600 transition-all duration-300">구인 정보</a>
+      </div>
+    </nav>
+
+
+
+  
+  <div id="unity-container" class="unity-desktop">
+    <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+
+    
+
+
+    <div class="nav-dots">
+      <div class="dot active" data-section="0"></div>
+      <div class="dot" data-section="1"></div>
+      <div class="dot" data-section="2"></div>
+      <div class="dot" data-section="3"></div>
+    </div>
+
+    <div class="scroll-hint">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" style="margin-bottom: 4px;">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+      <span class="text-sm">Scroll to explore</span>
+    </div>
+    <div id="unity-warning"> </div>
+    <!-- <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">WebPage</div>
+      </div> -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-lg fixed bottom-0 w-full z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center py-2">
+        <!-- Left: Social Links -->
+        <div class="flex flex-col items-center md:items-start mb-1 md:mb-0 order-1 md:order-1 w-full md:w-auto">
+          <div class="flex items-center space-x-3">
+            <a href="https://www.youtube.com/channel/UCIFYKkLnyEdyY0ONbJuAPIg" target="_blank" rel="noopener noreferrer" 
+               class="text-gray-600 hover:text-red-600 transition-colors duration-300">
+              <i class="fab fa-youtube text-base"></i>
+            </a>
+            <a href="https://sketchfab.com/x2rmaster" target="_blank" rel="noopener noreferrer"
+               class="text-gray-600 hover:text-blue-600 transition-colors duration-300">
+              <i class="fas fa-cube text-base"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Center: Copyright (both mobile and desktop) -->
+        <div class="text-center order-2 md:order-2 w-full md:w-auto mb-1 md:mb-0">
+          <p class="text-gray-500 text-[10px] leading-tight">©2022 - 2025. 엑스투알(주) All rights reserved.</p>
+        </div>
+        
+        <!-- Right: Contact Info -->
+        <div class="text-center md:text-right order-3 md:order-3 w-full md:w-auto">
+          <p class="text-gray-600 text-[10px] leading-tight">충남 아산시 배방읍 광장로 210, 와이몰 별관 206호</p>
+          <p class="text-gray-600 text-[10px] leading-tight">041-533-2349</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var canvas = document.querySelector("#unity-canvas");
+
+    // Shows a temporary message banner/ribbon for a few seconds, or
+    // a permanent error message on top of the canvas if type=='error'.
+    // If type=='warning', a yellow highlight color is used.
+    // Modify or remove this function to customize the visually presented
+    // way that non-critical warnings and error messages are presented to the
+    // user.
+    function unityShowBanner(msg, type) {
+      var warningBanner = document.querySelector("#unity-warning");
+      function updateBannerVisibility() {
+        warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+      }
+      var div = document.createElement('div');
+      div.innerHTML = msg;
+      warningBanner.appendChild(div);
+      if (type == 'error') div.style = 'background: red; padding: 10px;';
+      else {
+        if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+        setTimeout(function () {
+          warningBanner.removeChild(div);
+          updateBannerVisibility();
+        }, 5000);
+      }
+      updateBannerVisibility();
+    }
+
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/build.loader.js";
+    var config = {
+      arguments: [],
+      dataUrl: buildUrl + "/build.data.unityweb",
+      frameworkUrl: buildUrl + "/build.framework.js.unityweb",
+      codeUrl: buildUrl + "/build.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "WebPage",
+      productVersion: "0.1.0",
+      showBanner: unityShowBanner,
+    };
+
+    // By default, Unity keeps WebGL canvas render target size matched with
+    // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+    // Set this to false if you want to decouple this synchronization from
+    // happening inside the engine, and you would instead like to size up
+    // the canvas DOM size and WebGL render target sizes yourself.
+    // config.matchWebGLToCanvasSize = false;
+
+    // If you would like all file writes inside Unity Application.persistentDataPath
+    // directory to automatically persist so that the contents are remembered when
+    // the user revisits the site the next time, uncomment the following line:
+    // config.autoSyncPersistentDataPath = true;
+    // This autosyncing is currently not the default behavior to avoid regressing
+    // existing user projects that might rely on the earlier manual
+    // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+    // expected to change.
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      // Mobile device style: fill the whole browser client area with the game canvas:
+
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+      document.querySelector("#unity-container").className = "unity-mobile";
+      canvas.className = "unity-mobile";
+
+      // Mobile device style
+      document.querySelector("#unity-container").style.width = "100%";
+      document.querySelector("#unity-container").style.height = "calc(100vh - 83px)";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+
+      // To lower canvas resolution on mobile devices to gain some
+      // performance, uncomment the following line:
+      // config.devicePixelRatio = 1;
+
+    } else {
+      // Desktop style
+      document.querySelector("#unity-container").style.width = "100%";
+      document.querySelector("#unity-container").style.height = "calc(100vh - 83px)";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+
+    }
+
+    //document.querySelector("#unity-loading-bar").style.display = "block";
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+      }).then((unityInstance) => {
+        document.querySelector("#unity-loading-bar").style.display = "none";
+
+
+        // Handle mouse wheel on desktop
+        document.addEventListener('wheel', function (event) {
+          var delta = event.deltaY > 0 ? 1 : -1;
+          if (unityInstance) {
+            unityInstance.SendMessage('WheelUpdate', 'SetScrollValue', delta * 0.3);
+          }
+        });
+
+        // Handle touch events for mobile scrolling
+        let touchStartY = 0;
+        document.addEventListener('touchstart', function (event) {
+          touchStartY = event.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', function (event) {
+          const touchCurrentY = event.touches[0].clientY;
+          const deltaY = touchStartY - touchCurrentY;
+          const delta = deltaY > 0 ? 1 : -1;
+
+          if (unityInstance && Math.abs(deltaY) > 10) { // Add threshold to avoid tiny movements
+            unityInstance.SendMessage('WheelUpdate', 'SetScrollValue', delta * 0.15);
+            touchStartY = touchCurrentY; // Update reference point
+          }
+
+          // Prevent default scrolling behavior
+          event.preventDefault();
+        }, { passive: false });
+
+      }).catch((message) => {
+        alert(message);
+      });
+    };
+
+
+    function updateDots(sectionIndex) {
+      document.querySelectorAll('.dot').forEach((dot, index) => {
+        if (index === sectionIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+
+    document.body.appendChild(script);
+
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+</body>
+
+</html>
